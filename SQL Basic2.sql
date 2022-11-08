@@ -88,15 +88,17 @@ SELECT DEPTNO, MAX(SAL), MIN(SAL) FROM EMP GROUP BY DEPTNO;
 -- HAVING은 조건절, GROUP BY에 대한 조건절
 SELECT DEPTNO, AVG(SAL) FROM EMP GROUP BY DEPTNO HAVING AVG(SAL) >= 2000;
 
+-- 월 급여가 1000이상인 사원을 대상으로 부서별로 월급여 평균을 구하라(2000이상만)
 SELECT DEPTNO, AVG(SAL)		
 FROM EMP					
-WHERE SAL >= 1000		-- 월 급여가 1000이상인 사원을 대상으로
-GROUP BY DEPTNO			-- 부서별로 월급여 평균을 구하라(2000이상만)
+WHERE SAL >= 1000		
+GROUP BY DEPTNO			
 HAVING AVG(SAL) >= 2000;
 
+-- 급여가 높은 순 조회, 급여가 같을 경우 이름 빠른 순
 SELECT ENPNO, ENAME, SAL
 FROM ENP
-ORDER BY SAL DESC, ENAME ASC;	-- 급여가 높은 순 조회, 급여가 같을 경우 이름 빠른 순
+ORDER BY SAL DESC, ENAME ASC;	
 
 -- JOIN
 -- 1번 사실상 의미없다		INNER JOIN : 두 테이블의 교집합
@@ -119,20 +121,18 @@ ON E.MGR = M.EMPNO;
 -- 기본키 PRIMARY KEY, 외래키 FOREIGN KEY로 관계를 맺는다. 보통 일대다 관계라고 합니다.
 -- 조인할때는 ALIAS 쓴다. 조인 시에 조인 조건이 필요.
 
-SELECT E.ENAME, M.ENAME		--  직속 상사 조사
+--  직속 상사 조사
+SELECT E.ENAME, M.ENAME		
 FROM EMP E, EMP M 			-- ALIAS만 다르게
 WHERE E.MGR = M.EMPNO;		
 -- LEFT JOIN		
-SELECT E.ENAME, D.DNAME		-- 이름 ,부서명을 조회하시오. 단 , 사원테이블에 부서번호가 40에 속한 사원이 없지만 부서번호 40인 부서명도 출력되도록 하시오
+-- 이름 ,부서명을 조회하시오. 단 , 사원테이블에 부서번호가 40에 속한 사원이 없지만 부서번호 40인 부서명도 출력되도록 하시오
+SELECT E.ENAME, D.DNAME		
 FROM DEPT D 
 LEFT JOIN EMP E 		-- LEFT 생략가능
 ON D.DEPTNO = E.DEPTNO;	-- INNER JOIN과의 차이점 : NULL 값을 가진 것이 들어온다
 
-SELECT E.ENAME, D.DNAME
-FROM DEPT D 
-INNER JOIN EMP E
-ON D.DEPTNO = E.DEPTNO;
-
+-- 커미션을 받는 사원의 이름, 커미션, 부서이름, 부서위치 조회
 SELECT ENAME, COMM, DNAME, LOC
 FROM EMP, DEPT
 WHERE EMP.DEPTNO - DEPT.DEPTNO		-- JOIN조건
@@ -140,15 +140,18 @@ AND EMP.COMM IS NOT NULL AND EMP.COMM <> 0;
 
 -- SERVE QUERY
 -- 서브 쿼리 해석해서 메인에 적용
-SELECT DNAME		-- 'JONES'가 속한 부서명 조회하시오
+-- 'JONES'가 속한 부서명 조회하시오
+SELECT DNAME		
 FROM DEPT
 WHERE DEPTNO = (SELECT DEPTNO FROM EMP WHERE ENAME = 'JONES');
 
-SELECT EMPNO, ENAME, SAL		-- 평군 월급여 보다 더 많은 월급여를 받은 사원의 사원번호, 이름 , 월급여 조회
+-- 평균 월급여 보다 더 많은 월급여를 받은 사원의 사원번호, 이름 , 월급여 조회
+SELECT EMPNO, ENAME, SAL		
 FROM EMP
 WHERE SAL > (SELECT AVG(SAL) FROM EMP)
 ORDER BY SAL DESC; 		-- SAL 대신에 3 넣어도 됨.
 
-SELECT EMPNO, ENAME 		-- 부서 번호가 10인 사람 중에 최대 급여를 받느 사람
-FROM EMP					-- 동일한 급여를 받는 사원의 사원번호, 이름을 조회
+-- 부서 번호가 10인 사람 중에 최대 급여를 받느 사람, 동일한 급여를 받는 사원의 사원번호, 이름을 조회
+SELECT EMPNO, ENAME 		
+FROM EMP				
 WHERE SAL = (SELECT MAX(SAL) FROM EMP WHERE DEPTNO = 10);
