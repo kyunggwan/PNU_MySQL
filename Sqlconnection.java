@@ -11,9 +11,6 @@ import java.util.Scanner;
 // SQL 관련 클래스는 java.sql .*에 포함되어 있다.
 public class Sqlconnection {
 	Connection con;
-	int code;
-	String name;
-	int tel;
 
 // 클래스 list를 선언한다. java.sql의 Connection 객체 con을 선언한다.  	
 	public Sqlconnection() {
@@ -70,11 +67,11 @@ public class Sqlconnection {
 
 		Scanner scan = new Scanner(System.in);
 		System.out.print("추가할 학과 코드를 입력하세요 : ");
-		code = scan.nextInt();
+		int code = scan.nextInt();
 		System.out.print("추가할 학과 명을 입력하세요 : ");
-		name = scan.next();
+		String name = scan.next();
 		System.out.print("추가할 전화번호를 입력하세요 : ");
-		tel = scan.nextInt();
+		int tel = scan.nextInt();
 
 		String query = "Insert into 학과 (학과코드, 학과명, 전화번호)" + "values (?, ?, ?)"; /* SQL 문 */
 		try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
