@@ -59,6 +59,7 @@
 - Nonloss decomposition과 함수 종속성
 - Update Anomaly
 - 2NF와 3NF
-올바른 decomposition 방법
-Boyce/Codd Normal Form
-15장. DB 연동 프로그래밍
+- 올바른 decomposition 방법
+- Boyce/Codd Normal Form
+
+### 15장. DB 연동 프로그래밍
